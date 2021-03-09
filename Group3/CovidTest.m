@@ -1,36 +1,36 @@
 %% Covid model test
 
-t = linspace(0,25,100);
-
-params = struct([]);
+params = struct();
 
 % Contact rate
-params(1).c0 = 14.781;
-params(1).cb = 2.9253;
-params(1).r1 = 1.3768;
+params.c0 = 13; %14.781;
+params.cb = 13; %2.9253;
+params.r1 = 1.3768;
 
 % Diagnosis rate
-params(1).deltaI0 = 0.13266;
-params(1).deltaIF = 1/0.3654;
-params(1).r2 = 0.3283;
+params.deltaI0 = 0.1382; %0.13266;
+params.deltaIF = 0.1382; %1/0.3654;
+params.r2 = 0.3283;
 
 % Reproduction ratio
-params(1).beta = 2.1011e-8;
-params(1).e = 0.86834;
-params(1).q = 1.2858e-5;
-params(1).theta = 1.6003;
-params(1).alpha = 1.7826e-5;
-params(1).gammaI = 0.33029;
-params(1).gammaA = 0.13978;
+params.beta = 2.0389e-9; %2.1011e-8;
+%params(1).e = 1.5008; %0.86834; % Also called rho in second paper
+params.rho = 0.6834; % Replaces E in second paper
+params.nu = 1.5008; % New in second paper
+params.q = 2e-6; %1.8877e-7; %1.2858e-5;
+params.theta = 1.6003;
+params.alpha = 0.0009; %1.7826e-5;
+params.gammaI = 0.1029; %0.33029;
+params.gammaA = 0.2978; %0.13978;
 
 % Full model
-params(1).lambda = 1/14;
-params(1).sigma = 1/7;
-params(1).deltaQ = 0.1259;
-params(1).gammaH = 0.11624;
+params.lambda = 1/14;
+params.sigma = 1/5; %1/7;
+params.deltaQ = 0.1259;
+params.gammaH = 0.1024; %0.11624;
 
 % Initial Conditions
-params(1).S0 = 11081000;
+params.S0 = 11081000;
 E0 = 600;
 I0 = 410;
 A0 = 30;
@@ -43,3 +43,19 @@ tend = 100;
 N0 = [params(1).S0, E0, I0, A0, Sq0, Eq0, H0, R0];
 
 [t,N] = ode45(@CovidModel, [0, tend], N0, [], params);
+
+figure;
+subplot(3,1,1);
+plot(t,N(:,1));
+xlabel('time (days)');
+ylabel('susceptibles');
+
+subplot(3,1,2);
+plot(t,N(:,2));
+xlabel('time (days)');
+ylabel('exposed');
+
+subplot(3,1,3);
+plot(t,N(:,3));
+xlabel('time (days)');
+ylabel('infected');

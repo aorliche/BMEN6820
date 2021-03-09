@@ -8,7 +8,9 @@ Parameters are:
 - q
 - theta
 - sigma
-- e
+%- e ... replaced by nu and rho
+- nu
+- rho
 - alpha
 - gammaI
 - gammaA
@@ -55,25 +57,26 @@ H = N(7);
 R = N(8); % Does not affect anything
 
 % Model parameters
-beta = params(1).beta;
-q = params(1).q;
-theta = params(1).theta;
-lambda = params(1).lambda;
-sigma = params(1).sigma;
-e = params(1).e;
-alpha = params(1).alpha;
-gammaI = params(1).gammaI;
-gammaA = params(1).gammaA;
-deltaQ = params(1).deltaQ;
-gammaH = params(1).gammaH;
+beta = params.beta;
+q = params.q;
+theta = params.theta;
+lambda = params.lambda;
+sigma = params.sigma;
+rho = params.rho;
+nu = params.nu;
+alpha = params.alpha;
+gammaI = params.gammaI;
+gammaA = params.gammaA;
+deltaQ = params.deltaQ;
+gammaH = params.gammaH;
 
 % ODE Model
-dS = -(beta*ct + ct*q*(1-beta))*S*(I + theta*A) + lambda*Sq;
-dE = beta*ct*(1-q)*S*(I + theta*A) - sigma*E;
-dI = sigma*e*E - (dt + alpha + gammaI)*I;
-dA = sigma*(1-e)*E - gammaA*A;
-dSq = (1-beta)*ct*q*S*(I + theta*A) - lambda*Sq;
-dEq = beta*ct*q*S*(I + theta*A) - deltaQ*Eq;
+dS = -(beta*ct + ct*q*(1-beta))*S*(I + theta*A + nu*E) + lambda*Sq;
+dE = beta*ct*(1-q)*S*(I + theta*A + nu*E) - sigma*E;
+dI = sigma*rho*E - (dt + alpha + gammaI)*I;
+dA = sigma*(1-rho)*E - gammaA*A;
+dSq = (1-beta)*ct*q*S*(I + theta*A + nu*E) - lambda*Sq;
+dEq = beta*ct*q*S*(I + theta*A + nu*E) - deltaQ*Eq;
 dH = dt*I + deltaQ*Eq - (alpha + gammaH)*H;
 dR = gammaI*I + gammaA*A + gammaH*H;
 
