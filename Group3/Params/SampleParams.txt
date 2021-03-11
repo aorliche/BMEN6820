@@ -1,0 +1,10 @@
+q=1.2858e-5
+theta=1.6003
+sigma=1/7
+e=0.86834
+alpha=1.7826e-5
+gammaI=0.33029
+gammaA=0.13978
+lambda=1/14
+deltaQ=0.1259
+gammaH=0.11624
