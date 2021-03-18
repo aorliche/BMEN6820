@@ -15,7 +15,7 @@ ics = GetParams(icFilename);        % Try to load to make sure filename correct
 changeParamField = input('Enter name of field to vary: ','s');
 TF = isfield(params,changeParamField);
 while TF==0 % check variable exists
-    input('Invalid Entry...\nEnter name of field to vary: ','s');
+    changeParamField = input('Invalid Entry...\nEnter name of field to vary: ','s');
     TF = isfield(params,changeParamField);
 end
 
@@ -39,6 +39,9 @@ if tend < 1 || tend > 10000
 end
 
 % Get which population to plot
+fprintf('%s\n',["[1] Susceptible"; "[2] Exposed"; "[3] Infected"; "[4] Asymptomatic";...
+    "[5] Quarantined Susceptible"; "[6] Quarantined Exposed";...
+    "[7] Hospitalized"; "[8] Recovered"; "[9] Deceased"]);
 popIndex = input('Enter index of population vector to plot (1-9): ');
 if popIndex < 1 || popIndex > 9
     disp('Invalid population index, must be between 1 and 9');
