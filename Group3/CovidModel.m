@@ -1,36 +1,15 @@
-%% COVID Model
-%{
-Function passed to the ODE solver
-Parameters are passed in a struct to avoid having 20 arguments
-
-Parameters are:
-- beta
-- q
-- theta
-- sigma
-%- e ... replaced by nu and rho
-- nu
-- rho
-- alpha
-- gammaI
-- gammaA
-- lambda
-- deltaQ
-- gammaH
-
-For contact rate:
-- c0
-- cb
-- r1
-
-For diagnosis rate:
-- deltaI0
-- deltaIF
-- r2
-
-%}
-
 function dNdt = CovidModel(t,N,params)
+%% COVID Model
+%
+% Function passed to the ODE solver
+% Parameters are passed in a struct to avoid having 20 arguments to this
+% function
+% 
+% Parameters are:, beta, q, theta, sigma, e (replaced by nu and rho in
+%   second paper), nu, rho, alpha, gammaI, gammaA, lambda, deltaQ, gammaH
+% 
+% For contact rate: c0, cb, r1
+% For diagnosis rate: deltaI0, deltaIF, r2
 
 % Calculate decreasing contact rate at time t
 ct = ContactRate(t, params);
@@ -40,11 +19,6 @@ dt = DiagnosisRate(t, params);
 
 % Reproduction ratio
 % rt = ReproductionRatio(ct, dt, params);
-% 
-% figure
-% subplot(3,1,1), plot(t, ct);
-% subplot(3,1,2), plot(t, dt);
-% subplot(3,1,3), plot(t, rt);
 
 % Population numbers
 S = N(1);
@@ -55,6 +29,7 @@ Sq = N(5);
 Eq = N(6);
 H = N(7);
 R = N(8); % Does not affect anything
+D = N(9); % Does not affect anything
 
 % Model parameters
 beta = params.beta;
@@ -79,6 +54,7 @@ dSq = (1-beta)*ct*q*S*(I + theta*A + nu*E) - lambda*Sq;
 dEq = beta*ct*q*S*(I + theta*A + nu*E) - deltaQ*Eq;
 dH = dt*I + deltaQ*Eq - (alpha + gammaH)*H;
 dR = gammaI*I + gammaA*A + gammaH*H;
+dD = alpha*I + alpha*H;
 
-dNdt = [dS;dE;dI;dA;dSq;dEq;dH;dR];
+dNdt = [dS;dE;dI;dA;dSq;dEq;dH;dR;dD];
 end
