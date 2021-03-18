@@ -1,14 +1,14 @@
 function GifCreator(gifFilename, paramFilename, icFilename,...
     changeParamField,  tend, outPopulationIdx, curveValues)
 
-%   Create gif from varying contact rate parameter value
+%   Create gif from varying parameter value (can be any parameter)
 %   Kyle Cleveland, minor modifications by Anton
 
 % Usage:
 %   GifCreator('myGif.gif', 'Params/BasicModel.txt',...
 %       'ICs/BasicModel_ICs.txt', 'alpha', 100, 9, linspace(0,0.01,5));
 %   GifCreator('myGif.gif', 'Params/BasicModel.txt',...
-%       'ICs/BasicModel_ICs.txt', 'c0', 100, 3, linspace(13,5,7));
+%       'ICs/BasicModel_ICs.txt', 'c0', 100, 3, linspace(13,5,9));
 
 % Get params and ICs
 params = GetParams(paramFilename);
@@ -32,7 +32,7 @@ popName = string(pops(outPopulationIdx));
     
 % Plot the variable against infected (or some other) population
 h=figure; hold on;
-title(strcat('Effect of Changing ',changeParamField,' on ',popName),...
+title(sprintf('Effect of Changing %s on %s Population',changeParamField,popName),...
     'fontweight','bold','fontsize',16);
 axis tight
 
